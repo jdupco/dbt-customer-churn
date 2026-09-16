@@ -2,9 +2,11 @@ version: 2
 
 sources:
   - name: raw_data
-    catalog: prod
-    schema: raw_data
-
+    # Cambia el catálogo según el target (prod o dev)
+    database: "{{ 'prod' if target.name == 'prod' else 'dev' }}"
+    # Cambia el esquema según el target
+    schema: "{{ 'prod_raw_data' if target.name == 'prod' else 'dev_raw_data' }}"
+    
     tables:
       - name: raw_demographics
       - name: raw_location
