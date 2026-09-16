@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   dbt-build:
     runs-on: ubuntu-latest
@@ -39,30 +42,17 @@ jobs:
                 auth_type: oauth
                 host: "{{ env_var('DBT_DATABRICKS_HOST_DEV') }}"
                 http_path: "{{ env_var('DBT_DATABRICKS_HTTP_PATH_DEV') }}"
-
-              prod:
-                type: databricks
-                catalog: prod
-                schema: prod
-                auth_type: oauth
-                host: "{{ env_var('DBT_DATABRICKS_HOST_PROD') }}"
-                http_path: "{{ env_var('DBT_DATABRICKS_HTTP_PATH_PROD') }}"
+                client_id: "{{ env_var('DBT_DATABRICKS_CLIENT_ID') }}"
+                client_secret: "{{ env_var('DBT_DATABRICKS_CLIENT_SECRET') }}"
           EOF
 
       - name: dbt debug
         env:
           DBT_DATABRICKS_HOST_DEV: ${{ secrets.DBT_DATABRICKS_HOST_DEV }}
           DBT_DATABRICKS_HTTP_PATH_DEV: ${{ secrets.DBT_DATABRICKS_HTTP_PATH_DEV }}
+          DBT_DATABRICKS_CLIENT_ID: ${{ secrets.DBT_DATABRICKS_CLIENT_ID }}
+          DBT_DATABRICKS_CLIENT_SECRET: ${{ secrets.DBT_DATABRICKS_CLIENT_SECRET }}
         run: |
           uv run dbt debug \
-            --profiles-dir . \
-            --target dev
-
-      - name: dbt build - DEV
-        env:
-          DBT_DATABRICKS_HOST_DEV: ${{ secrets.DBT_DATABRICKS_HOST_DEV }}
-          DBT_DATABRICKS_HTTP_PATH_DEV: ${{ secrets.DBT_DATABRICKS_HTTP_PATH_DEV }}
-        run: |
-          uv run dbt build \
             --profiles-dir . \
             --target dev
