@@ -1,0 +1,60 @@
+SELECT
+    l.customer_id
+    ,l.gender
+    ,l.age
+    ,l.is_under_30
+    ,l.is_senior_citizen
+    ,l.is_married
+    ,l.has_dependents
+    ,l.number_of_dependents
+    ,l.location_id
+    ,l.country
+    ,l.state
+    ,l.city
+    ,l.zip_code
+    ,l.population
+    ,l.lat_long
+    ,l.latitude
+    ,l.longitude
+    ,s.service_id
+    ,s.quarter
+    ,s.has_referred
+    ,s.number_of_referrals
+    ,s.tenure_in_months
+    ,s.offer
+    ,s.has_phone_service
+    ,s.avg_monthly_long_distance_charges
+    ,s.has_multiple_lines
+    ,s.has_internet_service
+    ,s.internet_type
+    ,s.avg_monthly_gb_download
+    ,s.has_online_security
+    ,s.has_online_backup
+    ,s.has_device_protection_plan
+    ,s.has_premium_tech_support
+    ,s.has_streaming_tv
+    ,s.has_streaming_movies
+    ,s.has_streaming_music
+    ,s.has_unlimited_data
+    ,s.contract
+    ,s.has_paperless_billing
+    ,s.payment_method
+    ,s.monthly_charge
+    ,s.total_charges
+    ,s.total_refunds
+    ,s.total_extra_data_charges
+    ,s.total_long_distance_charges
+    ,s.total_revenue
+    ,st.status_id   
+    ,st.satisfaction_score
+    ,st.customer_status
+    ,st.is_churned
+    ,st.churn_score
+    ,st.cltv
+    ,st.churn_category
+    ,st.churn_reason
+FROM {{ ref('int_customer_location') }} AS l
+LEFT JOIN {{ ref('int_customer_services') }} AS s
+    ON l.customer_id = s.customer_id
+LEFT JOIN {{ ref('int_customer_status') }} AS st
+    ON l.customer_id = st.customer_id

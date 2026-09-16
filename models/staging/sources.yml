@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: raw_data
+    catalog: prod
+    schema: raw_data
+
+    tables:
+      - name: raw_demographics
+      - name: raw_location
+      - name: raw_population
+      - name: raw_services
+      - name: raw_status
