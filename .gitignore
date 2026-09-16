@@ -7,6 +7,7 @@ dbt_packages/
 # Local configuration & secrets
 profiles.yml
 .env
+*.user.yml
 
 # uv & Python environment
 .venv/
