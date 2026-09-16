@@ -56,3 +56,14 @@ jobs:
           uv run dbt debug \
             --profiles-dir . \
             --target dev
+
+      - name: dbt build - DEV
+        env:
+          DBT_DATABRICKS_HOST_DEV: ${{ secrets.DBT_DATABRICKS_HOST_DEV }}
+          DBT_DATABRICKS_HTTP_PATH_DEV: ${{ secrets.DBT_DATABRICKS_HTTP_PATH_DEV }}
+          DBT_DATABRICKS_CLIENT_ID: ${{ secrets.DBT_DATABRICKS_CLIENT_ID }}
+          DBT_DATABRICKS_CLIENT_SECRET: ${{ secrets.DBT_DATABRICKS_CLIENT_SECRET }}
+        run: |
+          uv run dbt build \
+            --profiles-dir . \
+            --target dev
