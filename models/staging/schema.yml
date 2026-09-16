@@ -1,0 +1,506 @@
+version: 2
+
+models:
+
+  - name: stg_demographics
+    description: "Staging model for customer demographic information."
+  
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        tests:
+          - not_null
+          - unique
+  
+      - name: count
+        description: "Record count indicator. Expected to always be 1."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1]
+
+      - name: gender
+        description: "Customer gender."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female']
+
+      - name: age
+        description: "Customer age."
+        tests:
+          - not_null
+  
+      - name: under_30
+        description: "Indicates whether the customer is under 30."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+  
+      - name: senior_citizen
+        description: "Indicates whether the customer is a senior citizen."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+  
+      - name: married
+        description: "Indicates whether the customer is married."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: dependents
+        description: "Indicates whether the customer has dependents."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+  
+      - name: number_of_dependents
+        description: "Number of dependents associated with the customer."
+        tests:
+          - not_null
+  
+      - name: source_file
+        description: "Source file from which the record was ingested."
+        tests:
+          - not_null
+  
+      - name: ingestion_timestamp
+        description: "Timestamp when the record was ingested."
+        tests:
+          - not_null
+ 
+  - name: stg_location
+    description: "Staging model for customer location information."
+
+    columns:
+      - name: location_id
+        description: "Identifier for the customer location."
+        tests:
+          - not_null
+          - unique 
+
+      - name: customer_id
+        description: "Identifier of the customer."
+        tests:
+          - not_null
+          - unique
+
+      - name: count
+        description: "Record count indicator. Expected to always be 1."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1]
+
+      - name: country
+        description: "Customer country."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['United States']
+
+      - name: state
+        description: "Customer state."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['California']
+
+      - name: city
+        description: "Customer city."
+        tests:
+          - not_null
+
+      - name: zip_code
+        description: "Customer ZIP code."
+        tests:
+          - not_null
+
+      - name: lat_long
+        description: "Customer latitude and longitude."
+        tests:
+          - not_null
+         
+      - name: latitude
+        description: "Customer latitude."
+        tests:
+          - not_null
+         
+      - name: longitude
+        description: "Customer longitude."
+        tests:
+          - not_null 
+
+      - name: source_file
+        description: "Source file from which the record was ingested."
+        tests:
+          - not_null
+
+      - name: ingestion_timestamp
+        description: "Timestamp when the record was ingested."
+        tests:
+          - not_null
+
+
+  - name: stg_population
+    description: "Staging model for population data by ZIP code."
+
+    columns:
+      - name: id
+        description: "Identifier of the population record."
+        tests:
+          - not_null
+          - unique
+
+      - name: zip_code
+        description: "ZIP code associated with the population record."
+        tests:
+          - not_null
+          - unique
+
+      - name: population
+        description: "Population associated with the ZIP code."
+        tests:
+          - not_null
+
+      - name: source_file
+        description: "Source file from which the record was ingested."
+        tests:
+          - not_null
+
+      - name: ingestion_timestamp
+        description: "Timestamp when the record was ingested."
+        tests:
+          - not_null
+
+
+  - name: stg_services
+    description: "Staging model for customer services and billing information."
+
+    columns:
+      - name: service_id
+        description: "Identifier of the service record."
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: "Identifier of the customer."
+        tests:
+          - not_null
+          - unique
+
+      - name: count
+        description: "Record count indicator. Expected to always be 1."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1]
+
+      - name: quarter
+        description: "Quarter of the year the record was ingested."
+        tests:
+          - not_null
+
+      - name: referred_a_friend
+        description: "Indicates whether the customer has referred a friend."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: number_of_referrals
+        description: "Number of times the customer has referred a friend."
+        tests:
+          - not_null
+
+      - name: tenure_in_months
+        description: "Number of months the customer has been with the company."
+        tests:
+          - not_null
+
+      - name: offer
+        description: "Indicates which offer the customer accepted, if any."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Offer A', 'Offer B', 'Offer C', 'Offer D', 'Offer E', 'None']
+
+      - name: phone_service
+        description: "Indicates whether the customer has phone service."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: avg_monthly_long_distance_charges
+        description: "Average monthly long distance charges."
+        tests:
+          - not_null
+
+      - name: multiple_lines
+        description: "Indicates whether the customer has multiple lines."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: internet_service
+        description: "Indicates whether the customer has internet service."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: internet_type
+        description: "Indicates the type of internet service the customer has, if any."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['DSL', 'Fiber Optic', 'Cable', 'None']
+
+      - name: avg_monthly_gb_download
+        description: "Average monthly GB download."
+        tests:
+          - not_null
+
+      - name: online_security
+        description: "Indicates whether the customer has online security."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: online_backup
+        description: "Indicates whether the customer has online backup."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: device_protection_plan
+        description: "Indicates whether the customer has a device protection plan."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: premium_tech_support
+        description: "Indicates whether the customer has premium tech support."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: streaming_tv
+        description: "Indicates whether the customer has streaming TV."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: streaming_movies
+        description: "Indicates whether the customer has streaming movies."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: streaming_music
+        description: "Indicates whether the customer has streaming music."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: unlimited_data
+        description: "Indicates whether the customer has unlimited data."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: contract
+        description: "Indicates the type of contract the customer has."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Month-to-Month', 'One Year', 'Two Year']
+
+      - name: paperless_billing
+        description: "Indicates whether the customer has paperless billing."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: payment_method
+        description: "Indicates the customer's payment method."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Bank Withdrawal', 'Credit Card', 'Mailed Check']
+
+      - name: monthly_charge
+        description: "Customer monthly charge."
+        tests:
+          - not_null
+
+      - name: total_charges
+        description: "Total charges associated with the customer."
+        tests:
+          - not_null
+
+      - name: total_refunds
+        description: "Total refunds associated with the customer."
+        tests:
+          - not_null
+
+      - name: total_extra_data_charges
+        description: "Total extra data charges associated with the customer."
+        tests:
+          - not_null
+
+      - name: total_long_distance_charges
+        description: "Total long distance charges associated with the customer."
+        tests:
+          - not_null
+
+      - name: total_revenue
+        description: "Total revenue associated with the customer."
+        tests:
+          - not_null
+
+      - name: source_file
+        description: "Source file from which the record was ingested."
+        tests:
+          - not_null
+
+      - name: ingestion_timestamp
+        description: "Timestamp when the record was ingested."
+        tests:
+          - not_null
+
+
+  - name: stg_status
+    description: "Staging model for customer status and churn information."
+
+    columns:
+      - name: status_id
+        description: "Identifier of the customer status record."
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: "Identifier of the customer."
+        tests:
+          - not_null
+          - unique
+
+      - name: count
+        description: "Record count indicator. Expected to always be 1."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1]
+
+      - name: quarter
+        description: "Quarter of the year the record was ingested."
+        tests:
+          - not_null
+
+      - name: satisfaction_score
+        description: "Customer satisfaction score."
+        tests:
+          - not_null
+
+      - name: customer_status
+        description: "Customer status."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Churned', 'Stayed', 'Joined']
+
+      - name: churn_label
+        description: "Churn label."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Yes', 'No']
+
+      - name: churn_value
+        description: "Numeric churn indicator."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 0]
+
+      - name: churn_score
+        description: "Churn score."
+        tests:
+          - not_null
+
+      - name: cltv
+        description: "Customer lifetime value."
+        tests:
+          - not_null
+
+      - name: churn_category
+        description: "Churn category."
+        tests:
+          - accepted_values:
+              arguments:
+                values: [
+                  'Competitor',
+                  'Dissatisfaction',
+                  'Price',
+                  'Other',
+                  'Attitude'
+                ]
+
+      - name: source_file
+        description: "Source file from which the record was ingested."
+        tests:
+          - not_null
+
+      - name: ingestion_timestamp
+        description: "Timestamp when the record was ingested."
+        tests:
+          - not_null 
