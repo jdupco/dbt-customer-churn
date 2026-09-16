@@ -18,19 +18,20 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install dbt
-        run: |
-          pip install dbt-databricks
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install dependencies
+        run: uv sync --frozen
 
       - name: Install dbt dependencies
-        run: |
-          dbt deps --profiles-dir .
+        run: uv run dbt deps --profiles-dir .
 
       - name: dbt build - DEV
         env:
           DATABRICKS_HOST: ${{ secrets.DBT_DATABRICKS_HOST_DEV }}
           DATABRICKS_HTTP_PATH: ${{ secrets.DBT_DATABRICKS_HTTP_PATH_DEV }}
         run: |
-          dbt build \
+          uv run dbt build \
             --profiles-dir . \
             --target dev
