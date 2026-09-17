@@ -45,14 +45,14 @@ SELECT
     ,s.total_extra_data_charges
     ,s.total_long_distance_charges
     ,s.total_revenue
-    -- ,st.status_id   
-    -- ,st.satisfaction_score
-    -- ,st.customer_status
-    -- ,st.is_churned
-    -- ,st.churn_score
-    -- ,st.cltv
-    -- ,st.churn_category
-    -- ,st.churn_reason
+    ,st.status_id   
+    ,st.satisfaction_score
+    ,st.customer_status
+    ,st.is_churned
+    ,st.churn_score
+    ,st.cltv
+    ,st.churn_category
+    ,st.churn_reason
 FROM {{ ref('int_customer_location') }} AS l
 LEFT JOIN {{ ref('int_customer_services') }} AS s
     ON l.customer_id = s.customer_id
