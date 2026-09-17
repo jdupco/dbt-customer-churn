@@ -1,0 +1,65 @@
+name: dbt CD
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  dbt-build-prod:
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_DATABRICKS_HOST_PROD: ${{ secrets.DBT_DATABRICKS_HOST_PROD }}
+      DBT_DATABRICKS_HTTP_PATH_PROD: ${{ secrets.DBT_DATABRICKS_HTTP_PATH_PROD }}
+      DBT_DATABRICKS_CLIENT_ID: ${{ secrets.DBT_DATABRICKS_CLIENT_ID }}
+      DBT_DATABRICKS_CLIENT_SECRET: ${{ secrets.DBT_DATABRICKS_CLIENT_SECRET }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: |
+          uv sync
+
+      - name: Create dbt profiles.yml
+        run: |
+          cat > profiles.yml <<'EOF'
+          dbt_customer_churn:
+            target: prod
+
+            outputs:
+              prod:
+                type: databricks
+                catalog: prod
+                schema: analytics
+                auth_type: oauth
+                host: "{{ env_var('DBT_DATABRICKS_HOST_PROD') }}"
+                http_path: "{{ env_var('DBT_DATABRICKS_HTTP_PATH_PROD') }}"
+                client_id: "{{ env_var('DBT_DATABRICKS_CLIENT_ID') }}"
+                client_secret: "{{ env_var('DBT_DATABRICKS_CLIENT_SECRET') }}"
+          EOF
+
+      - name: dbt debug
+        run: |
+          uv run dbt debug \
+            --profiles-dir . \
+            --target prod
+
+      - name: dbt build - PROD
+        run: |
+          uv run dbt build \
+            --profiles-dir . \
+            --target prod
