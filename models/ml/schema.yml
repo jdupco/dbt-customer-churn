@@ -1,0 +1,13 @@
+version: 2
+
+models:
+
+  - name: customer_churn_features
+    description: "Customer churn features for the ML model."
+  
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        tests:
+          - not_null
+          - unique

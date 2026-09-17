@@ -23,3 +23,7 @@ models:
 
     marts:
       +materialized: table
+
+    ml:
+      +schema: ml
+      +materialized: table
