@@ -1,5 +1,4 @@
 SELECT
-    customer_id,
     gender,
     age,
     is_under_30,
@@ -7,8 +6,6 @@ SELECT
     is_married,
     has_dependents,
     number_of_dependents,
-    country,
-    state,
     city,
     population,
     latitude,
@@ -16,7 +13,6 @@ SELECT
     has_referred,
     number_of_referrals,
     tenure_in_months,
-    offer,
     has_phone_service,
     avg_monthly_long_distance_charges,
     has_multiple_lines,
@@ -35,11 +31,5 @@ SELECT
     has_paperless_billing,
     payment_method,
     monthly_charge,
-    total_charges,
-    total_refunds,
-    total_extra_data_charges,
-    total_long_distance_charges,
-    total_revenue,
-    satisfaction_score,
     is_churned AS target
 FROM {{ ref('obt_customer') }}
