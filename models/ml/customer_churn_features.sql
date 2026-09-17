@@ -1,4 +1,5 @@
 SELECT
+    customer_id,
     gender,
     age,
     is_under_30,
