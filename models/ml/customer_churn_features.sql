@@ -31,6 +31,5 @@ SELECT
     contract,
     has_paperless_billing,
     payment_method,
-    monthly_charge,
-    is_churned AS target
+    monthly_charge
 FROM {{ ref('obt_customer') }}
