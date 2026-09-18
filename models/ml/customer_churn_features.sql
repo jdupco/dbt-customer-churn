@@ -8,6 +8,7 @@ SELECT
     has_dependents,
     number_of_dependents,
     city,
+    zip_code,
     population,
     latitude,
     longitude,
