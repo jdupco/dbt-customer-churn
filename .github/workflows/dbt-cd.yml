@@ -63,3 +63,9 @@ jobs:
           uv run dbt build \
             --profiles-dir . \
             --target prod
+
+      - name: Configure ML feature table
+        run: |
+          uv run dbt run-operation configure_feature_table \
+            --profiles-dir . \
+            --target prod
